@@ -4,34 +4,16 @@
 #include <unistd.h>
 #include <errno.h>
 
-#define ONED_COPY_SYSCALL 452
+#define ONED_COPY_SYSCALL 451
 
-void check_equal(float lhs[2][2], float rhs[2][2], int l, int m)
-{
-
-    for (int i = 0; i < l; i++)
-    {
-
-        for (int j = 0; j < m; j++)
-        {
-
-            if (lhs[i][j] != rhs[i][j])
-            {
-                printf("Error : LHS[%d][%d] != RHS[%d][%d]\n", i, j, i, j);
-                return;
-            }
-        }
-    }
-    printf("Message : Success LHS = RHS \n");
-}
 int main()
 {
-    float src_arr[2][2] = {{5.0, 6.0}, {7.0, 8.0}};
-    float dest_arr[2][2];
+    double src_arr[5][5] = {{1,2,3,4,5}, {1,2,3,4,5}, {1,2,3,4,5}, {1,2,3,4,5}, {1,2,3,4,5}};
+    double dest_arr[5][5];
 
-    float sys_call_status;
+    double sys_call_status;
 
-    sys_call_status = syscall(SYS_2D_CPY, src_arr, dest_arr, 2, 2);
+    sys_call_status = syscall(ONED_COPY_SYSCALL, src_arr, dest_arr, 25);
 
     if (sys_call_status == 0)
     {
@@ -43,12 +25,12 @@ int main()
         printf("Message : Error in copying \n");
     }
 
-    check_equal(src_arr, dest_arr, 2, 2);
+    check_equal(src_arr, dest_arr, 25);
 
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 5; i++)
     {
 
-        for (int j = 0; j < 2; j++)
+        for (int j = 0; j <5; j++)
         {
             printf("%f", dest_arr[i][j]);
         }
